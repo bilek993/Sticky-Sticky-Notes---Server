@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sticky Sticky Notes - Server", "Sticky Sticky Notes - Server\Sticky Sticky Notes - Server.csproj", "{50B78C50-5E60-4645-89BB-B7151EF9FC6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50B78C50-5E60-4645-89BB-B7151EF9FC6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50B78C50-5E60-4645-89BB-B7151EF9FC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50B78C50-5E60-4645-89BB-B7151EF9FC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50B78C50-5E60-4645-89BB-B7151EF9FC6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD6AA7FB-C554-4A96-9A8D-46902A381933}
+	EndGlobalSection
+EndGlobal
