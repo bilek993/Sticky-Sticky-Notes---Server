@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 using Sticky_Sticky_Notes___Server.Models;
 
@@ -16,7 +17,10 @@ namespace Sticky_Sticky_Notes___Server.Controllers
         [BasicAuthentication]
         public List<NoteItem> Get()
         {
-            return _database.Notes.Select(n => new NoteItem
+            string username = Thread.CurrentPrincipal.Identity.Name;
+
+            return _database.Notes.Where(n => n.Users.Username == username)
+                .Select(n => new NoteItem
             {
                 Context = n.Context,
                 LastEditDate = n.LastEditDate
@@ -27,14 +31,17 @@ namespace Sticky_Sticky_Notes___Server.Controllers
         [BasicAuthentication]
         public ResultItem Put([FromBody] NoteItem newNote)
         {
+            string username = Thread.CurrentPrincipal.Identity.Name;
+            Users user = _database.Users.FirstOrDefault(u => u.Username == username);
+
             if (newNote.Context == null || newNote.LastEditDate == null)
                 return new ResultItem(false, "Null value on required field.");
 
             var note = new Notes
             {
                 Context = newNote.Context,
-                LastEditDate = newNote.LastEditDate
-                // TODO: Add current user here
+                LastEditDate = newNote.LastEditDate,
+                Users = user
             };
             _database.Notes.Add(note);
             _database.SaveChanges();
