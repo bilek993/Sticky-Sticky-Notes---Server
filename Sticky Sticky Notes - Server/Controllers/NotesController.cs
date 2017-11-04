@@ -21,10 +21,11 @@ namespace Sticky_Sticky_Notes___Server.Controllers
 
             return _database.Notes.Where(n => n.Users.Username == username)
                 .Select(n => new NoteItem
-            {
-                Context = n.Context,
-                LastEditDate = n.LastEditDate
-            }).ToList();
+                {
+                    Id = n.Id,
+                    Context = n.Context,
+                    LastEditDate = n.LastEditDate
+                }).ToList();
         }
 
         // Create new note
@@ -46,6 +47,24 @@ namespace Sticky_Sticky_Notes___Server.Controllers
             _database.Notes.Add(note);
             _database.SaveChanges();
 
+            return new ResultItem(true);
+        }
+
+        // Update note
+        [BasicAuthentication]
+        public ResultItem Post([FromBody] NoteItem noteToBeUpdated)
+        {
+            string username = Thread.CurrentPrincipal.Identity.Name;
+
+            Notes noteFromServer = _database.Notes.FirstOrDefault(n => n.Id == noteToBeUpdated.Id
+                                                                    && n.Users.Username == username);
+
+            if (noteFromServer == null)
+                return new ResultItem(false, "Note doesn't exist.");
+
+            noteFromServer.Context = noteToBeUpdated.Context;
+            noteFromServer.LastEditDate = noteToBeUpdated.LastEditDate;
+            _database.SaveChanges();
             return new ResultItem(true);
         }
     }
