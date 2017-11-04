@@ -19,7 +19,7 @@ namespace Sticky_Sticky_Notes___Server.Controllers
             if (!veryficationResult.Successful)
                 return veryficationResult;
 
-            if (_database.Users.Where(u => u.Username == userFromBody.Username).ToList().Count != 0)
+            if (_database.Users.Any(u => u.Username == userFromBody.Username))
                 return new ResultItem(false, "User already exist.");
 
             var user = new Users
