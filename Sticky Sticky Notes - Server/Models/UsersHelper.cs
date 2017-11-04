@@ -19,7 +19,7 @@ namespace Sticky_Sticky_Notes___Server.Models
 
         public static bool CheckUserCredentials(string username, string password)
         {
-            using (DatabaseMainEntities database = new DatabaseMainEntities())
+            using (var database = new DatabaseMainEntities())
             {
                 return database.Users.Any(u => u.Username == username &&
                                                u.Password == password);

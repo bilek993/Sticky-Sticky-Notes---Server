@@ -10,27 +10,28 @@ namespace Sticky_Sticky_Notes___Server.Controllers
 {
     public class UsersController : ApiController
     {
-        private DatabaseMainEntities _database = new DatabaseMainEntities();
-
         // Add new user into db
         public ResultItem Put([FromBody] UserItem userFromBody)
         {
-            ResultItem veryficationResult = UsersHelper.VerifyUserForEmptyValues(userFromBody);
-            if (!veryficationResult.Successful)
-                return veryficationResult;
-
-            if (_database.Users.Any(u => u.Username == userFromBody.Username))
-                return new ResultItem(false, "User already exist.");
-
-            var user = new Users
+            using (var database = new DatabaseMainEntities())
             {
-                Username = userFromBody.Username,
-                Password = userFromBody.Password
-            };
-            _database.Users.Add(user);
-            _database.SaveChanges();
+                ResultItem veryficationResult = UsersHelper.VerifyUserForEmptyValues(userFromBody);
+                if (!veryficationResult.Successful)
+                    return veryficationResult;
 
-            return new ResultItem(true);
+                if (database.Users.Any(u => u.Username == userFromBody.Username))
+                    return new ResultItem(false, "User already exist.");
+
+                var user = new Users
+                {
+                    Username = userFromBody.Username,
+                    Password = userFromBody.Password
+                };
+                database.Users.Add(user);
+                database.SaveChanges();
+
+                return new ResultItem(true);
+            }
         }
 
         // Verify username and password
