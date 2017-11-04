@@ -13,6 +13,7 @@ namespace Sticky_Sticky_Notes___Server.Controllers
         private DatabaseMainEntities _database = new DatabaseMainEntities();
 
         // Get all notes
+        [BasicAuthentication]
         public List<NoteItem> Get()
         {
             return _database.Notes.Select(n => new NoteItem
@@ -23,6 +24,7 @@ namespace Sticky_Sticky_Notes___Server.Controllers
         }
 
         // Create new note
+        [BasicAuthentication]
         public ResultItem Put([FromBody] NoteItem newNote)
         {
             if (newNote.Context == null || newNote.LastEditDate == null)
