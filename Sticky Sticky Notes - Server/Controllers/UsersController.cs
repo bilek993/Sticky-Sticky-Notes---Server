@@ -40,7 +40,7 @@ namespace Sticky_Sticky_Notes___Server.Controllers
             if (!veryficationResult.Successful)
                 return veryficationResult;
 
-            if (!_database.Users.Any(u => u.Username == userFromBody.Username  && u.Password == userFromBody.Password))
+            if (!UsersHelper.CheckUserCredentials(userFromBody.Username, userFromBody.Password))
                 return new ResultItem(false, "Wrong username and/or password.");
 
             return new ResultItem(true);
