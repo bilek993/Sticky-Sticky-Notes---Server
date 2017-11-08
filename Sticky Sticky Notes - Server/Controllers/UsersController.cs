@@ -25,7 +25,7 @@ namespace Sticky_Sticky_Notes___Server.Controllers
                 var user = new Users
                 {
                     Username = userFromBody.Username,
-                    Password = userFromBody.Password
+                    Password = Hashing.hashSha256(userFromBody.Password)
                 };
                 database.Users.Add(user);
                 database.SaveChanges();

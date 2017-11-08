@@ -129,6 +129,7 @@
       <DependentUpon>ModelMain.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Models\Hashing.cs" />
     <Compile Include="Models\UsersHelper.cs" />
     <Compile Include="Models\NoteItem.cs" />
     <Compile Include="Models\ResultItem.cs" />

@@ -22,7 +22,7 @@ namespace Sticky_Sticky_Notes___Server.Models
             using (var database = new DatabaseMainEntities())
             {
                 return database.Users.Any(u => u.Username == username &&
-                                               u.Password == password);
+                                               u.Password == Hashing.hashSha256(password));
             }
         }
     }
