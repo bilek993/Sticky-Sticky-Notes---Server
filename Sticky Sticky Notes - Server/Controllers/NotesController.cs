@@ -50,7 +50,7 @@ namespace Sticky_Sticky_Notes___Server.Controllers
                 database.Notes.Add(note);
                 database.SaveChanges();
 
-                return new ResultItem(true);
+                return new ResultItem(true,"OK;" + note.Id);
             }
         }
 
