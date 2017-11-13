@@ -68,6 +68,9 @@ namespace Sticky_Sticky_Notes___Server.Controllers
                 if (noteFromServer == null)
                     return new ResultItem(false, "Note doesn't exist.");
 
+                if (noteFromServer.LastEditDate >= noteToBeUpdated.LastEditDate)
+                    return new ResultItem(true);
+
                 noteFromServer.Context = noteToBeUpdated.Context;
                 noteFromServer.LastEditDate = noteToBeUpdated.LastEditDate;
                 database.SaveChanges();
@@ -91,6 +94,9 @@ namespace Sticky_Sticky_Notes___Server.Controllers
 
                     if (noteFromServer == null)
                         result = new ResultItem(false, "One of notes don't exist.");
+
+                    if (noteFromServer.LastEditDate >= noteToBeUpdated.LastEditDate)
+                        continue;
 
                     noteFromServer.Context = noteToBeUpdated.Context;
                     noteFromServer.LastEditDate = noteToBeUpdated.LastEditDate;
