@@ -68,10 +68,42 @@ namespace Sticky_Sticky_Notes___Server.Controllers
                 if (noteFromServer == null)
                     return new ResultItem(false, "Note doesn't exist.");
 
+                if (noteFromServer.LastEditDate >= noteToBeUpdated.LastEditDate)
+                    return new ResultItem(true);
+
                 noteFromServer.Context = noteToBeUpdated.Context;
                 noteFromServer.LastEditDate = noteToBeUpdated.LastEditDate;
                 database.SaveChanges();
                 return new ResultItem(true);
+            }
+        }
+
+        // Update multiple note
+        [BasicAuthentication]
+        public ResultItem Post([FromBody] List<NoteItem> notesToBeUpdated)
+        {
+            using (var database = new DatabaseMainEntities())
+            {
+                string username = Thread.CurrentPrincipal.Identity.Name;
+                var result = new ResultItem(true);
+
+                foreach (NoteItem noteToBeUpdated in notesToBeUpdated)
+                {
+                    Notes noteFromServer = database.Notes.FirstOrDefault(n => n.Id == noteToBeUpdated.Id
+                                                                              && n.Users.Username == username);
+
+                    if (noteFromServer == null)
+                        result = new ResultItem(false, "One of notes don't exist.");
+
+                    if (noteFromServer.LastEditDate >= noteToBeUpdated.LastEditDate)
+                        continue;
+
+                    noteFromServer.Context = noteToBeUpdated.Context;
+                    noteFromServer.LastEditDate = noteToBeUpdated.LastEditDate;
+                    database.SaveChanges();
+                }
+
+                return result;
             }
         }
     }
