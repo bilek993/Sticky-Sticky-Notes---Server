@@ -31,7 +31,7 @@ namespace Sticky_Sticky_Notes___Server.Controllers
 
         // Create new note
         [BasicAuthentication]
-        public ResultItem Put([FromBody] NoteItem newNote)
+        public int? Put([FromBody] NoteItem newNote)
         {
             using (var database = new DatabaseMainEntities())
             {
@@ -39,7 +39,7 @@ namespace Sticky_Sticky_Notes___Server.Controllers
                 Users user = database.Users.FirstOrDefault(u => u.Username == username);
 
                 if (newNote.Context == null || newNote.LastEditDate == null)
-                    return new ResultItem(false, "Null value on required field.");
+                    return null;
 
                 var note = new Notes
                 {
@@ -50,7 +50,7 @@ namespace Sticky_Sticky_Notes___Server.Controllers
                 database.Notes.Add(note);
                 database.SaveChanges();
 
-                return new ResultItem(true);
+                return note.Id;
             }
         }
 
