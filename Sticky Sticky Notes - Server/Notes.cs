@@ -18,6 +18,7 @@ namespace Sticky_Sticky_Notes___Server
         public string Context { get; set; }
         public Nullable<System.DateTime> LastEditDate { get; set; }
         public Nullable<int> UserId { get; set; }
+        public bool Removed { get; set; }
     
         public virtual Users Users { get; set; }
     }

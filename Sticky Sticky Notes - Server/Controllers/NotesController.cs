@@ -24,7 +24,8 @@ namespace Sticky_Sticky_Notes___Server.Controllers
                     {
                         Id = n.Id,
                         Context = n.Context,
-                        LastEditDate = n.LastEditDate
+                        LastEditDate = n.LastEditDate,
+                        Removed = n.Removed
                     }).ToList();
             }
         }
@@ -67,6 +68,13 @@ namespace Sticky_Sticky_Notes___Server.Controllers
                 {
                     Notes noteFromServer = database.Notes.FirstOrDefault(n => n.Id == noteToBeUpdated.Id
                                                                               && n.Users.Username == username);
+
+                    if (noteFromServer.Removed || noteToBeUpdated.Removed)
+                    {
+                        noteFromServer.Removed = true;
+                        database.SaveChanges();
+                        continue;
+                    }
 
                     if (noteFromServer == null)
                         result = new ResultItem(false, "One of notes don't exist.");
